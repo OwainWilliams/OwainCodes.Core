@@ -3,10 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
 	
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="XCOPY /s /y &quot;$(TargetDir)$(ProjectName).*&quot; &quot;$(ProjectDir)\..\$(SolutionName).Web\bin\&quot;" />

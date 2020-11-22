@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using owaincodes.Core.Blogs.Models;
+using owaincodes.Core.Models;
+using System.Collections.Generic;
 using Umbraco.Web.PublishedModels;
 
 namespace owaincodes.Core.Interfaces
 {
     public interface IBlogSearchService
     {
-        IEnumerable<BlogPage> GetBlogPages(int qty);
+        PagedResults<BlogPage> GetPagedBlogFeed(BlogPageFilterModel pageFilterModel);
 
         IEnumerable<BlogPage> GetOlderBlogPages(int qty, int skip);
     }

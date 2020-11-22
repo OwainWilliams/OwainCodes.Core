@@ -19,71 +19,50 @@ using Umbraco.ModelsBuilder.Embedded;
 
 namespace Umbraco.Web.PublishedModels
 {
-	/// <summary>Authors</summary>
-	[PublishedModel("authors")]
-	public partial class Authors : PublishedContentModel
+	/// <summary>Blog Page Listing</summary>
+	[PublishedModel("blogPageListing")]
+	public partial class BlogPageListing : PublishedElementModel
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
-		public new const string ModelTypeAlias = "authors";
+		public new const string ModelTypeAlias = "blogPageListing";
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
 		public new static IPublishedContentType GetModelContentType()
 			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
-		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<Authors, TValue>> selector)
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<BlogPageListing, TValue>> selector)
 			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
 #pragma warning restore 0109
 
 		// ctor
-		public Authors(IPublishedContent content)
+		public BlogPageListing(IPublishedElement content)
 			: base(content)
 		{ }
 
 		// properties
 
 		///<summary>
-		/// Author details
+		/// Initial Load
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
-		[ImplementPropertyType("authorDetails")]
-		public string AuthorDetails => this.Value<string>("authorDetails");
+		[ImplementPropertyType("initialLoad")]
+		public decimal InitialLoad => this.Value<decimal>("initialLoad");
 
 		///<summary>
-		/// Name
+		/// Listing TItle
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
-		[ImplementPropertyType("authorName")]
-		public string AuthorName => this.Value<string>("authorName");
+		[ImplementPropertyType("listingTitle")]
+		public string ListingTitle => this.Value<string>("listingTitle");
 
 		///<summary>
-		/// Author profile
+		/// Section selector
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
-		[ImplementPropertyType("authorProfile")]
-		public global::Umbraco.Core.Models.PublishedContent.IPublishedContent AuthorProfile => this.Value<global::Umbraco.Core.Models.PublishedContent.IPublishedContent>("authorProfile");
-
-		///<summary>
-		/// LinkedIn
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
-		[ImplementPropertyType("linkedIn")]
-		public string LinkedIn => this.Value<string>("linkedIn");
-
-		///<summary>
-		/// Twitter
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
-		[ImplementPropertyType("twitter")]
-		public string Twitter => this.Value<string>("twitter");
-
-		///<summary>
-		/// Website
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
-		[ImplementPropertyType("website")]
-		public string Website => this.Value<string>("website");
+		[ImplementPropertyType("sectionSelector")]
+		public global::Umbraco.Core.Models.PublishedContent.IPublishedContent SectionSelector => this.Value<global::Umbraco.Core.Models.PublishedContent.IPublishedContent>("sectionSelector");
 	}
 }
