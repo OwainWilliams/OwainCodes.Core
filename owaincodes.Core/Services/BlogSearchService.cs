@@ -62,7 +62,7 @@ namespace owaincodes.Core.Services
             return (IEnumerable<BlogPage>)new List<BlogPage>();
         }
 
-        public PagedResults<BlogPage> GetPagedBlogFeed(BlogPageFilterModel pageFilterModel)
+        public PagedResults<BlogPage> GetPagedBlogFeed(PaginationDetails pageFilterModel)
         {
 
             try
@@ -77,19 +77,19 @@ namespace owaincodes.Core.Services
                         throw new ArgumentException(nameof(pageFilterModel));
                     }
 
-                    if (pageFilterModel.Page < 1) pageFilterModel.Page = 1;
+                    if (pageFilterModel.CurrentPage < 1) pageFilterModel.CurrentPage = 1;
                     if (pageFilterModel.PageSize < 1) pageFilterModel.PageSize = 1;
 
 
                     ISearchResults results = SearchForBlogs(pageFilterModel, searcher);
-                    return ProcessSearchResults<BlogPage>(pageFilterModel.Page, pageFilterModel.PageSize, results);
+                    return ProcessSearchResults<BlogPage>((int)pageFilterModel.CurrentPage, (int)pageFilterModel.PageSize, results);
 
                 }
 
             }
             catch (Exception ex)
             {
-                logger.Error(GetType(), ex, "Error getting Posts - {{page}", pageFilterModel.Page);
+                logger.Error(GetType(), ex, "Error getting Posts - {{page}", pageFilterModel.CurrentPage);
             }
 
             return new PagedResults<BlogPage>(-1, -1, -1)
@@ -143,7 +143,7 @@ namespace owaincodes.Core.Services
         }
 
 
-        private ISearchResults SearchForBlogs(PageFilterModel pageFilterModel, ISearcher searcher)
+        private ISearchResults SearchForBlogs(PaginationDetails pageFilterModel, ISearcher searcher)
         {
             var query = searcher.CreateQuery().NodeTypeAlias(BlogPage.ModelTypeAlias);
 

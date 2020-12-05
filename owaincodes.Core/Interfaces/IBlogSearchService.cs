@@ -7,7 +7,7 @@ namespace owaincodes.Core.Interfaces
 {
     public interface IBlogSearchService
     {
-        PagedResults<BlogPage> GetPagedBlogFeed(BlogPageFilterModel pageFilterModel);
+        PagedResults<BlogPage> GetPagedBlogFeed(PaginationDetails pageFilterModel);
 
         IEnumerable<BlogPage> GetOlderBlogPages(int qty, int skip);
     }

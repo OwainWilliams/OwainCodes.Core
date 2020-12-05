@@ -1,5 +1,6 @@
 ﻿using owaincodes.Core.Blogs.Models;
 using owaincodes.Core.Interfaces;
+using owaincodes.Core.Models;
 using System;
 using System.Web.Mvc;
 using Umbraco.Web.Mvc;
@@ -21,9 +22,9 @@ namespace owaincodes.Core.Controllers
 
 
         [ChildActionOnly]
-        public ActionResult GetInitialBlogResults(BlogPageFilterModel model)
+        public ActionResult GetInitialBlogResults(PaginationDetails model)
         {
-            model = ValidateModel(model);
+           
             var returnModel = blogSearchService.GetPagedBlogFeed(model);
 
             return PartialView("Blogs/AllBlogResultsListing", returnModel);
@@ -33,21 +34,28 @@ namespace owaincodes.Core.Controllers
 
 
 
-    public ActionResult GetHomePageBlogResults(BlogPageFilterModel model)
+    public ActionResult GetHomePageBlogResults(PaginationDetails model)
         {
-            model = ValidateModel(model);
+           
 
             var returnModel = blogSearchService.GetPagedBlogFeed(model);
             return PartialView("Blogs/BlogResultsListing", returnModel);
         }
-        
-      // public ActionResult GetBlogsPages(int qty) => (ActionResult)this.PartialView("Blogs/BlogResultsListing", (object)this.blogSearchService.GetBlogPages(qty));
+
+        [HttpPost]
+        public ActionResult GetPageBlogResults(PaginationDetails model)
+        {
 
 
-      //  public ActionResult GetAllBlogsPages(int qty) => (ActionResult)this.PartialView("Blogs/AllBlogResultsListing", (object)this.blogSearchService.GetBlogPages(qty));
+            var returnModel = blogSearchService.GetPagedBlogFeed(model);
+            return PartialView("Blogs/AllBlogResultsListing", returnModel);
+        }
+
+        // public ActionResult GetBlogsPages(int qty) => (ActionResult)this.PartialView("Blogs/BlogResultsListing", (object)this.blogSearchService.GetBlogPages(qty));
 
 
-      
+        //  public ActionResult GetAllBlogsPages(int qty) => (ActionResult)this.PartialView("Blogs/AllBlogResultsListing", (object)this.blogSearchService.GetBlogPages(qty));
+
 
         public ActionResult GetOlderBlogsPages(int qty, int skip) => (ActionResult)this.PartialView("Blogs/GetOlderBlogs", (object)this.blogSearchService.GetOlderBlogPages(qty, skip));
 
