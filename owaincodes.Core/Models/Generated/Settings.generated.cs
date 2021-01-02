@@ -66,6 +66,13 @@ namespace Umbraco.Web.PublishedModels
 		public string Facebook => this.Value<string>("facebook");
 
 		///<summary>
+		/// github
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
+		[ImplementPropertyType("github")]
+		public string Github => this.Value<string>("github");
+
+		///<summary>
 		/// instagram
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]

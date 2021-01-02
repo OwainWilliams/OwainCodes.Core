@@ -49,7 +49,7 @@ namespace owaincodes.Core.Services
               //  return this.umbracoHelper.Content(this.searcher.CreateQuery().NodeTypeAlias("blogPage").OrderByDescending(new SortableField("sortOrder", SortType.Int)).Execute().Take<ISearchResult>(qty).Select<ISearchResult, string>((Func<ISearchResult, string>)(r => r.Id))).OfType<BlogPage>();
                 return this.umbracoHelper.Content(this.searcher.CreateQuery()
                     .NodeTypeAlias("blogPage")
-                    .OrderBy(new SortableField("publishedDate", SortType.String))
+                    .OrderBy(new SortableField(Constants.Blogs.BlogDateSortableExamineField, SortType.String))
                     .Execute()
                     .Take<ISearchResult>(4)
                     .Select<ISearchResult, string>((Func<ISearchResult, string>)(r => r.Id)))
@@ -109,15 +109,20 @@ namespace owaincodes.Core.Services
 
             var returnModel = new PagedResults<T>(page, pageSize, Convert.ToInt32(results.TotalItemCount));
 
-            using (var scope = scopeProvider.CreateScope(autoComplete: true))
+            using (var scope = scopeProvider.CreateScope())
             {
                 using (var umbracoContext = umbracoContextFactory.EnsureUmbracoContext())
                 {
-                    returnModel.Results = pageResults.Any() ? pageResults.Select(r => umbracoContext.UmbracoContext.Content.GetById(int.Parse(r.Id))).OfType<T>().ToList()
+                    returnModel.Results = pageResults.Any() ? pageResults.Select(r => umbracoContext.UmbracoContext.Content.GetById(int.Parse(r.Id)))
+                        .OfType<T>().ToList()
                     : Enumerable.Empty<T>();
 
+
+                    scope.Complete();
                     return returnModel;
+                    
                 }
+               
             }
 
 
@@ -133,7 +138,14 @@ namespace owaincodes.Core.Services
             try
             {
                 // return this.umbracoHelper.Content(this.searcher.CreateQuery().NodeTypeAlias("blogPage").OrderByDescending(new SortableField("sortOrder", SortType.Int)).Execute().Take<ISearchResult>(qty).Select<ISearchResult, string>((Func<ISearchResult, string>)(r => r.Id))).OfType<BlogPage>();
-                return this.umbracoHelper.Content(this.searcher.CreateQuery().NodeTypeAlias("blogPage").OrderBy(new SortableField("publishedDate", SortType.String)).Execute().Skip<ISearchResult>(skip).Take<ISearchResult>(qty).Select<ISearchResult, string>((Func<ISearchResult, string>)(r => r.Id))).OfType<BlogPage>();
+                return this.umbracoHelper.Content(this.searcher.CreateQuery()
+                    .NodeTypeAlias("blogPage")
+                    .OrderBy(new SortableField(Constants.Blogs.BlogDateSortableExamineField, SortType.String))
+                    .Execute()
+                    .Skip<ISearchResult>(skip)
+                    .Take<ISearchResult>(qty)
+                    .Select<ISearchResult, string>((Func<ISearchResult, string>)(r => r.Id)))
+                    .OfType<BlogPage>();
             }
             catch (Exception ex)
             {
@@ -150,7 +162,7 @@ namespace owaincodes.Core.Services
             query = query.And().RangeQuery<long>(new[] { "blogDateSortable" }, 0, DateTime.Now.Ticks, maxInclusive: true);
 
            
-            var results = query.Execute();
+            var results = query.OrderBy().Execute();
             return results;
         }
     }

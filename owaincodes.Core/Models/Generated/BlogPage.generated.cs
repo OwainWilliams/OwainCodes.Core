@@ -52,13 +52,6 @@ namespace Umbraco.Web.PublishedModels
 		public global::System.Collections.Generic.IEnumerable<global::Umbraco.Core.Models.PublishedContent.IPublishedContent> Authors => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Core.Models.PublishedContent.IPublishedContent>>("authors");
 
 		///<summary>
-		/// Blog  Image
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
-		[ImplementPropertyType("blogImage")]
-		public global::Umbraco.Core.Models.PublishedContent.IPublishedContent BlogImage => this.Value<global::Umbraco.Core.Models.PublishedContent.IPublishedContent>("blogImage");
-
-		///<summary>
 		/// Blog Summary
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
@@ -71,13 +64,6 @@ namespace Umbraco.Web.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
 		[ImplementPropertyType("blogTitle")]
 		public string BlogTitle => this.Value<string>("blogTitle");
-
-		///<summary>
-		/// Category
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
-		[ImplementPropertyType("category")]
-		public global::System.Collections.Generic.IEnumerable<string> Category => this.Value<global::System.Collections.Generic.IEnumerable<string>>("category");
 
 		///<summary>
 		/// Published date
