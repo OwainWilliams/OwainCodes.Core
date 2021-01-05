@@ -42,25 +42,7 @@ namespace owaincodes.Core.Services
             this.umbracoContextFactory = umbracoContextFactory ?? throw new ArgumentNullException(nameof(umbracoContextFactory));
         }
 
-        public IEnumerable<BlogPage> GetInitialBlogResults()
-        {
-            try
-            {
-              //  return this.umbracoHelper.Content(this.searcher.CreateQuery().NodeTypeAlias("blogPage").OrderByDescending(new SortableField("sortOrder", SortType.Int)).Execute().Take<ISearchResult>(qty).Select<ISearchResult, string>((Func<ISearchResult, string>)(r => r.Id))).OfType<BlogPage>();
-                return this.umbracoHelper.Content(this.searcher.CreateQuery()
-                    .NodeTypeAlias("blogPage")
-                    .OrderBy(new SortableField(Constants.Blogs.BlogDateSortableExamineField, SortType.String))
-                    .Execute()
-                    .Take<ISearchResult>(4)
-                    .Select<ISearchResult, string>((Func<ISearchResult, string>)(r => r.Id)))
-                    .OfType<BlogPage>();
-            }
-            catch (Exception ex)
-            {
-                this.logger.Error(this.GetType(), ex, "Error getting latest blogs");
-            }
-            return (IEnumerable<BlogPage>)new List<BlogPage>();
-        }
+      
 
         public PagedResults<BlogPage> GetPagedBlogFeed(PaginationDetails pageFilterModel)
         {
@@ -81,7 +63,7 @@ namespace owaincodes.Core.Services
                     if (pageFilterModel.PageSize < 1) pageFilterModel.PageSize = 1;
 
 
-                    ISearchResults results = SearchForBlogs(pageFilterModel, searcher);
+                    ISearchResults results = SearchForBlogs(searcher);
                     return ProcessSearchResults<BlogPage>((int)pageFilterModel.CurrentPage, (int)pageFilterModel.PageSize, results);
 
                 }
@@ -140,7 +122,7 @@ namespace owaincodes.Core.Services
                 // return this.umbracoHelper.Content(this.searcher.CreateQuery().NodeTypeAlias("blogPage").OrderByDescending(new SortableField("sortOrder", SortType.Int)).Execute().Take<ISearchResult>(qty).Select<ISearchResult, string>((Func<ISearchResult, string>)(r => r.Id))).OfType<BlogPage>();
                 return this.umbracoHelper.Content(this.searcher.CreateQuery()
                     .NodeTypeAlias("blogPage")
-                    .OrderBy(new SortableField(Constants.Blogs.BlogDateSortableExamineField, SortType.String))
+                    .OrderByDescending(new SortableField(Constants.Blogs.BlogDateSortableExamineField, SortType.Long))
                     .Execute()
                     .Skip<ISearchResult>(skip)
                     .Take<ISearchResult>(qty)
@@ -155,14 +137,15 @@ namespace owaincodes.Core.Services
         }
 
 
-        private ISearchResults SearchForBlogs(PaginationDetails pageFilterModel, ISearcher searcher)
+        private ISearchResults SearchForBlogs(ISearcher searcher)
         {
             var query = searcher.CreateQuery().NodeTypeAlias(BlogPage.ModelTypeAlias);
 
-            query = query.And().RangeQuery<long>(new[] { "blogDateSortable" }, 0, DateTime.Now.Ticks, maxInclusive: true);
+            query = query.And().RangeQuery<long>(new[] { Constants.Blogs.BlogDateSortableExamineField }, 0, DateTime.Now.Ticks, maxInclusive: true);
 
            
-            var results = query.OrderBy().Execute();
+            var results = query.OrderByDescending(new SortableField(Constants.Blogs.BlogDateSortableExamineField, SortType.Long))
+                    .Execute();
             return results;
         }
     }

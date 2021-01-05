@@ -115,6 +115,13 @@ namespace Umbraco.Web.PublishedModels
 		public global::Umbraco.Core.Models.PublishedContent.IPublishedContent PageBanner => global::Umbraco.Web.PublishedModels.PageContent.GetPageBanner(this);
 
 		///<summary>
+		/// Page Description: used for MetaData
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
+		[ImplementPropertyType("pageDescription")]
+		public string PageDescription => global::Umbraco.Web.PublishedModels.PageContent.GetPageDescription(this);
+
+		///<summary>
 		/// Hide from search
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]

@@ -36,8 +36,8 @@ namespace owaincodes.Core.Controllers
 
     public ActionResult GetHomePageBlogResults(PaginationDetails model)
         {
-           
 
+        
             var returnModel = blogSearchService.GetPagedBlogFeed(model);
             return PartialView("Blogs/BlogResultsListing", returnModel);
         }

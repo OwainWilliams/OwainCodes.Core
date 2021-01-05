@@ -42,6 +42,10 @@ namespace Umbraco.Web.PublishedModels
 		/// <summary>Page Banner</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
 		global::Umbraco.Core.Models.PublishedContent.IPublishedContent PageBanner { get; }
+
+		/// <summary>Page Description</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
+		string PageDescription { get; }
 	}
 
 	/// <summary>Page Content</summary>
@@ -123,5 +127,16 @@ namespace Umbraco.Web.PublishedModels
 		/// <summary>Static getter for Page Banner</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
 		public static global::Umbraco.Core.Models.PublishedContent.IPublishedContent GetPageBanner(IPageContent that) => that.Value<global::Umbraco.Core.Models.PublishedContent.IPublishedContent>("pageBanner");
+
+		///<summary>
+		/// Page Description: used for MetaData
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
+		[ImplementPropertyType("pageDescription")]
+		public string PageDescription => GetPageDescription(this);
+
+		/// <summary>Static getter for Page Description</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.9.0")]
+		public static string GetPageDescription(IPageContent that) => that.Value<string>("pageDescription");
 	}
 }

@@ -27,7 +27,7 @@
 
         internal static class Blogs
         {
-            internal const string BlogDate = "blogDate";
+            internal const string BlogDate = "publishedDate";
             internal static string BlogDateSortableExamineField { get { return BlogDate + Sortable; } }
             internal const string Categories = "categories";
             internal static string CategoriesExamineField { get { return Categories + Cleaned; } }
