@@ -81,6 +81,7 @@ namespace owaincodes.Core.Services
 
         }
 
+       
 
         private PagedResults<T> ProcessSearchResults<T>(int page, int pageSize, ISearchResults results) where T : IPublishedContent
         {
@@ -102,13 +103,14 @@ namespace owaincodes.Core.Services
 
                     scope.Complete();
                     return returnModel;
-                    
+
                 }
-               
+
             }
 
-
         }
+
+    
 
         private int CalculateFinalPage(int pageSize, long totalItemCount)
         {
@@ -147,6 +149,38 @@ namespace owaincodes.Core.Services
             var results = query.OrderByDescending(new SortableField(Constants.Blogs.BlogDateSortableExamineField, SortType.Long))
                     .Execute();
             return results;
+        }
+
+
+        private IEnumerable<T> ProcessRssResults<T>(ISearchResults results) where T : IPublishedContent
+        {
+            
+           
+            using (var scope = scopeProvider.CreateScope())
+            {
+                using (var umbracoContext = umbracoContextFactory.EnsureUmbracoContext())
+                {
+                    IEnumerable<T> resultOfRss = results.Any() ? results.Select(r => umbracoContext.UmbracoContext.Content.GetById(int.Parse(r.Id)))
+                        .OfType<T>().ToList()
+                    : Enumerable.Empty<T>();
+
+
+                    scope.Complete();
+                    return resultOfRss;
+
+                }
+
+            }
+
+        }
+
+
+        public IEnumerable<BlogPage> GetAllBlogs()
+        {
+            ISearchResults blogSearchResults = SearchForBlogs(searcher);
+            IEnumerable<BlogPage> rssResults = ProcessRssResults<BlogPage>(blogSearchResults);
+
+            return rssResults;
         }
     }
 }

@@ -10,5 +10,7 @@ namespace owaincodes.Core.Interfaces
         PagedResults<BlogPage> GetPagedBlogFeed(PaginationDetails pageFilterModel);
 
         IEnumerable<BlogPage> GetOlderBlogPages(int qty, int skip);
+
+        IEnumerable<BlogPage> GetAllBlogs();
     }
 }
