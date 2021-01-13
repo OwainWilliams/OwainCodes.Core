@@ -1643,6 +1643,11 @@ textarea.form-control {
   stroke-linecap: round;
 }
 
+blockquote p{
+	padding-left: 10px;
+	border-left: 2px $red solid;
+}
+
 @keyframes loader-rotate {
   100% {
     transform: rotate(360deg);
