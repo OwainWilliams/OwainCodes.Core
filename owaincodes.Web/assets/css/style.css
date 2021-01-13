@@ -8104,6 +8104,10 @@ textarea.form-control {
   animation: loader-dash 1.5s ease-in-out infinite;
   stroke-linecap: round; }
 
+blockquote p {
+  padding-left: 10px;
+  border-left: 2px #dc3545 solid; }
+
 @keyframes loader-rotate {
   100% {
     transform: rotate(360deg); } }
