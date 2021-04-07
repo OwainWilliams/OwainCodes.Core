@@ -85,10 +85,19 @@ namespace owaincodes.Core.Services
 
         private PagedResults<T> ProcessSearchResults<T>(int page, int pageSize, ISearchResults results) where T : IPublishedContent
         {
-            if (page * pageSize > results.TotalItemCount)
-                page = CalculateFinalPage(pageSize, results.TotalItemCount);
 
-            var pageResults = results.TotalItemCount > 0 ? results.Skip((page - 1) * pageSize).Take(pageSize) : Enumerable.Empty<ISearchResult>();
+            // results has the missing blog - id 1153
+
+            if (page * pageSize > results.TotalItemCount)
+            {
+                page = CalculateFinalPage(pageSize, results.TotalItemCount);
+            }
+
+            var pageResults = page > 1 ?
+                 results.Skip((page - 1) * pageSize).Take(pageSize) : results.Take(pageSize);
+
+
+            //var pageResults = results.TotalItemCount > 0 ? results.Skip((page - 1) * pageSize).Take(pageSize) : Enumerable.Empty<ISearchResult>();
 
             var returnModel = new PagedResults<T>(page, pageSize, Convert.ToInt32(results.TotalItemCount));
 
@@ -96,7 +105,7 @@ namespace owaincodes.Core.Services
             {
                 using (var umbracoContext = umbracoContextFactory.EnsureUmbracoContext())
                 {
-                    returnModel.Results = pageResults.Any() ? pageResults.Select(r => umbracoContext.UmbracoContext.Content.GetById(int.Parse(r.Id)))
+                    returnModel.Results = results.Count() > 0 ? pageResults.Select(r => umbracoContext.UmbracoContext.Content.GetById(int.Parse(r.Id)))
                         .OfType<T>().ToList()
                     : Enumerable.Empty<T>();
 

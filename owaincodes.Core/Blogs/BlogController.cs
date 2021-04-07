@@ -65,7 +65,7 @@ namespace owaincodes.Core.Controllers
                 return new BlogPageFilterModel
                 {
                     Page = 1,
-                    PageSize = 10,
+                    PageSize = 12,
                     Filters = new Core.Models.FilterModels.FilterModel()
                 };
             else

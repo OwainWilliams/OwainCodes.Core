@@ -269,7 +269,7 @@
 				url: "/umbraco/Surface/Blog/GetPageBlogResults",
 				data: {
 					"currentPage": $(this).data("page"),
-					"pageSize": 5
+					"pageSize": 12
 				},
 				success: function (data) {
 					if (data != null) {
