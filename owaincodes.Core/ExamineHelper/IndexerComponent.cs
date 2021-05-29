@@ -43,6 +43,7 @@ namespace owaincodes.Core.ExamineHelper
                 externalIndex.FieldDefinitionCollection.AddOrUpdate(new FieldDefinition(Constants.CustomSort, FieldDefinitionTypes.Integer));
                 externalIndex.FieldDefinitionCollection.AddOrUpdate(new FieldDefinition(Constants.CommonFields.PageTitle, FieldDefinitionTypes.FullTextSortable));
                 externalIndex.FieldDefinitionCollection.AddOrUpdate(new FieldDefinition(Constants.CommonFields.CategoriesExamineField, FieldDefinitionTypes.FullTextSortable));
+                externalIndex.FieldDefinitionCollection.AddOrUpdate(new FieldDefinition(Constants.FriendlyPath, FieldDefinitionTypes.FullTextSortable));
                 ((BaseIndexProvider)externalIndex).TransformingIndexValues += RegisterExamineEventsComponent_TransformingIndexValues;
             }
         }
@@ -91,9 +92,11 @@ namespace owaincodes.Core.ExamineHelper
         {
             try
             {
+              
                 var publishedDate = blog.PublishedDate;
                 e.ValueSet.Add(Constants.Blogs.BlogDateSortableExamineField, publishedDate.Ticks);
                 e.ValueSet.Add(Constants.Blogs.PageTitle, blog.BlogTitle);
+              
             }
             catch (Exception ex)
             {
@@ -108,6 +111,7 @@ namespace owaincodes.Core.ExamineHelper
             GenericIndexHelper.HandleParent(e, contentItem, logService);
             GenericIndexHelper.HandleLastUpdatedDate(e, contentItem, logService);
             GenericIndexHelper.HandleKey(e, contentItem, logService);
+            GenericIndexHelper.CleanPath(e, contentItem, logService);
 
         }
     }

@@ -11,6 +11,7 @@
         internal const string Cleaned = "Cleaned";
         internal const string Sortable = "Sortable";
         internal const string Space = " ";
+        internal const string FriendlyPath = "FriendlyPath";
 
         
         internal const string CreateDateTicks = "createDateTicks";

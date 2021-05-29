@@ -26,6 +26,7 @@ namespace owaincodes.Core.Controllers
         {
            
             var returnModel = blogSearchService.GetPagedBlogFeed(model);
+            
 
             return PartialView("Blogs/AllBlogResultsListing", returnModel);
         }
@@ -39,13 +40,13 @@ namespace owaincodes.Core.Controllers
 
         
             var returnModel = blogSearchService.GetPagedBlogFeed(model);
-            return PartialView("Blogs/BlogResultsListing", returnModel);
+            return PartialView("Blogs/HomepageBlogResultsListing", returnModel);
         }
 
         [HttpPost]
         public ActionResult GetPageBlogResults(PaginationDetails model)
         {
-
+           
 
             var returnModel = blogSearchService.GetPagedBlogFeed(model);
             return PartialView("Blogs/AllBlogResultsListing", returnModel);

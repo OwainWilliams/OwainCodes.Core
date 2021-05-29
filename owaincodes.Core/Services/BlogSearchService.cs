@@ -13,6 +13,7 @@ using Umbraco.Core.Scoping;
 using Umbraco.Examine;
 using Umbraco.Web;
 using Umbraco.Web.PublishedModels;
+using Our.Umbraco.Extensions.Search;
 
 namespace owaincodes.Core.Services
 {
@@ -25,6 +26,7 @@ namespace owaincodes.Core.Services
         private readonly IExamineManager examineManager;
         private readonly IScopeProvider scopeProvider;
         private readonly IUmbracoContextFactory umbracoContextFactory;
+        private readonly UmbracoWebService umbracoWebService;
 
         public BlogSearchService(ILogger logger, UmbracoHelper helper, IExamineManager examineManager, IScopeProvider scopeProvider, IUmbracoContextFactory umbracoContextFactory)
         {
@@ -46,7 +48,7 @@ namespace owaincodes.Core.Services
 
         public PagedResults<BlogPage> GetPagedBlogFeed(PaginationDetails pageFilterModel)
         {
-
+            
             try
             {
 
@@ -63,7 +65,10 @@ namespace owaincodes.Core.Services
                     if (pageFilterModel.PageSize < 1) pageFilterModel.PageSize = 1;
 
 
-                    ISearchResults results = SearchForBlogs(searcher);
+                    var currentPage = umbracoHelper.AssignedContentItem.Id;
+                    var siteRoot = umbracoHelper.Content(currentPage).Root().Id;
+
+                    ISearchResults results = SearchForBlogs(searcher, siteRoot);
                     return ProcessSearchResults<BlogPage>((int)pageFilterModel.CurrentPage, (int)pageFilterModel.PageSize, results);
 
                 }
@@ -86,7 +91,7 @@ namespace owaincodes.Core.Services
         private PagedResults<T> ProcessSearchResults<T>(int page, int pageSize, ISearchResults results) where T : IPublishedContent
         {
 
-            // results has the missing blog - id 1153
+         
 
             if (page * pageSize > results.TotalItemCount)
             {
@@ -148,12 +153,19 @@ namespace owaincodes.Core.Services
         }
 
 
-        private ISearchResults SearchForBlogs(ISearcher searcher)
+        private ISearchResults SearchForBlogs(ISearcher searcher, int rootId)
         {
+            
+         
+         //   var firstRootNode = umbracoWebService.Services.ContentService.GetByLevel(1).FirstOrDefault();
+
             var query = searcher.CreateQuery().NodeTypeAlias(BlogPage.ModelTypeAlias);
-
+            
+            
             query = query.And().RangeQuery<long>(new[] { Constants.Blogs.BlogDateSortableExamineField }, 0, DateTime.Now.Ticks, maxInclusive: true);
-
+            query = query.And().Field("FriendlyPath", ""+rootId+"");
+           
+          
            
             var results = query.OrderByDescending(new SortableField(Constants.Blogs.BlogDateSortableExamineField, SortType.Long))
                     .Execute();
@@ -186,7 +198,11 @@ namespace owaincodes.Core.Services
 
         public IEnumerable<BlogPage> GetAllBlogs()
         {
-            ISearchResults blogSearchResults = SearchForBlogs(searcher);
+
+            var currentPage = umbracoHelper.AssignedContentItem.Id;
+            var siteRoot = umbracoHelper.Content(currentPage).Root().Id;
+
+            ISearchResults blogSearchResults = SearchForBlogs(searcher, siteRoot);
             IEnumerable<BlogPage> rssResults = ProcessRssResults<BlogPage>(blogSearchResults);
 
             return rssResults;

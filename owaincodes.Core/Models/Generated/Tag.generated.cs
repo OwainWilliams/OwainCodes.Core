@@ -19,49 +19,29 @@ using Umbraco.ModelsBuilder.Embedded;
 
 namespace Umbraco.Web.PublishedModels
 {
-	// Mixin Content Type with alias "contentBlocks"
-	/// <summary>Content Blocks</summary>
-	public partial interface IContentBlocks : IPublishedContent
-	{
-		/// <summary>Content</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
-		global::Umbraco.Core.Models.Blocks.BlockListModel Content { get; }
-	}
-
-	/// <summary>Content Blocks</summary>
-	[PublishedModel("contentBlocks")]
-	public partial class ContentBlocks : PublishedContentModel, IContentBlocks
+	/// <summary>Tag</summary>
+	[PublishedModel("tag")]
+	public partial class Tag : TagsGroup
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
-		public new const string ModelTypeAlias = "contentBlocks";
+		public new const string ModelTypeAlias = "tag";
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
 		public new static IPublishedContentType GetModelContentType()
 			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
-		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<ContentBlocks, TValue>> selector)
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<Tag, TValue>> selector)
 			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
 #pragma warning restore 0109
 
 		// ctor
-		public ContentBlocks(IPublishedContent content)
+		public Tag(IPublishedContent content)
 			: base(content)
 		{ }
 
 		// properties
-
-		///<summary>
-		/// Content
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
-		[ImplementPropertyType("content")]
-		public virtual global::Umbraco.Core.Models.Blocks.BlockListModel Content => GetContent(this);
-
-		/// <summary>Static getter for Content</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
-		public static global::Umbraco.Core.Models.Blocks.BlockListModel GetContent(IContentBlocks that) => that.Value<global::Umbraco.Core.Models.Blocks.BlockListModel>("content");
 	}
 }

@@ -19,49 +19,50 @@ using Umbraco.ModelsBuilder.Embedded;
 
 namespace Umbraco.Web.PublishedModels
 {
-	// Mixin Content Type with alias "contentBlocks"
-	/// <summary>Content Blocks</summary>
-	public partial interface IContentBlocks : IPublishedContent
-	{
-		/// <summary>Content</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
-		global::Umbraco.Core.Models.Blocks.BlockListModel Content { get; }
-	}
-
-	/// <summary>Content Blocks</summary>
-	[PublishedModel("contentBlocks")]
-	public partial class ContentBlocks : PublishedContentModel, IContentBlocks
+	/// <summary>HomePage Blog Listing</summary>
+	[PublishedModel("homepageBlogListing")]
+	public partial class HomepageBlogListing : PublishedElementModel
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
-		public new const string ModelTypeAlias = "contentBlocks";
+		public new const string ModelTypeAlias = "homepageBlogListing";
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
 		public new static IPublishedContentType GetModelContentType()
 			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
-		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<ContentBlocks, TValue>> selector)
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<HomepageBlogListing, TValue>> selector)
 			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
 #pragma warning restore 0109
 
 		// ctor
-		public ContentBlocks(IPublishedContent content)
+		public HomepageBlogListing(IPublishedElement content)
 			: base(content)
 		{ }
 
 		// properties
 
 		///<summary>
-		/// Content
+		/// Initial Load
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
-		[ImplementPropertyType("content")]
-		public virtual global::Umbraco.Core.Models.Blocks.BlockListModel Content => GetContent(this);
+		[ImplementPropertyType("initialLoad")]
+		public virtual decimal InitialLoad => this.Value<decimal>("initialLoad");
 
-		/// <summary>Static getter for Content</summary>
+		///<summary>
+		/// Listing TItle
+		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
-		public static global::Umbraco.Core.Models.Blocks.BlockListModel GetContent(IContentBlocks that) => that.Value<global::Umbraco.Core.Models.Blocks.BlockListModel>("content");
+		[ImplementPropertyType("listingTitle")]
+		public virtual string ListingTitle => this.Value<string>("listingTitle");
+
+		///<summary>
+		/// Section selector
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.13.0")]
+		[ImplementPropertyType("sectionSelector")]
+		public virtual global::Umbraco.Core.Models.PublishedContent.IPublishedContent SectionSelector => this.Value<global::Umbraco.Core.Models.PublishedContent.IPublishedContent>("sectionSelector");
 	}
 }

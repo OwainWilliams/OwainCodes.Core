@@ -8,6 +8,7 @@
         public int LastPage { get; set; }
         public long TotalResults { get; set; }
 
+        public int CurrentPageId { get; set; }
         public string ItemType { get; set; }
     }
 }

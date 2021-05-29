@@ -25,6 +25,17 @@ namespace owaincodes.Core.ExamineHelper
             }
         }
 
+        internal static void CleanPath(IndexingItemEventArgs e, IPublishedContent content, ILogger logservice)
+        {
+            try
+            {
+                e.ValueSet.Add(Constants.FriendlyPath, content.Path.Replace(","," "));
+            }
+            catch(Exception ex)
+            {
+                logservice.Error(typeof(GenericIndexHelper), ex, $"Error setting friendly path - {content.Id}");
+            }
+        }
 
         internal static void HandleName(IndexingItemEventArgs e, IPublishedContent content, ILogger logService)
         {
