@@ -133,17 +133,23 @@ namespace owaincodes.Core.Services
 
         public IEnumerable<BlogPage> GetOlderBlogPages(int qty, int skip)
         {
+            var currentPage = umbracoHelper.AssignedContentItem.Id;
+            var rootId = umbracoHelper.Content(currentPage).Root().Id;
+
             try
             {
                 // return this.umbracoHelper.Content(this.searcher.CreateQuery().NodeTypeAlias("blogPage").OrderByDescending(new SortableField("sortOrder", SortType.Int)).Execute().Take<ISearchResult>(qty).Select<ISearchResult, string>((Func<ISearchResult, string>)(r => r.Id))).OfType<BlogPage>();
                 return this.umbracoHelper.Content(this.searcher.CreateQuery()
                     .NodeTypeAlias("blogPage")
+                    .And().Field("FriendlyPath", ""+rootId+"")
                     .OrderByDescending(new SortableField(Constants.Blogs.BlogDateSortableExamineField, SortType.Long))
                     .Execute()
                     .Skip<ISearchResult>(skip)
                     .Take<ISearchResult>(qty)
                     .Select<ISearchResult, string>((Func<ISearchResult, string>)(r => r.Id)))
                     .OfType<BlogPage>();
+
+              
             }
             catch (Exception ex)
             {
