@@ -260,7 +260,7 @@
 		pagination.CurrentPage = $(this).data("page");
 		pagination.CurrentPageQty = $(this).data("pageqty");
 		pagination.PageSize = $(this).data("pagesize");
-
+		pagination.CurrentPageId = $(this).data("currentpageid");
 
 
 		if (pagination != null) {
@@ -269,7 +269,8 @@
 				url: "/umbraco/Surface/Blog/GetPageBlogResults",
 				data: {
 					"currentPage": $(this).data("page"),
-					"pageSize": 12
+					"pageSize": 12,
+					"currentPageId": $(this).data("currentpageid")
 				},
 				success: function (data) {
 					if (data != null) {

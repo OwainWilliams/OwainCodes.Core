@@ -1,7 +1,7 @@
 ﻿
 using Examine;
 using Examine.Search;
-using owaincodes.Core.Blogs.Models;
+using Our.Umbraco.Extensions.Search;
 using owaincodes.Core.Interfaces;
 using owaincodes.Core.Models;
 using System;
@@ -13,7 +13,6 @@ using Umbraco.Core.Scoping;
 using Umbraco.Examine;
 using Umbraco.Web;
 using Umbraco.Web.PublishedModels;
-using Our.Umbraco.Extensions.Search;
 
 namespace owaincodes.Core.Services
 {
@@ -64,9 +63,9 @@ namespace owaincodes.Core.Services
                     if (pageFilterModel.CurrentPage < 1) pageFilterModel.CurrentPage = 1;
                     if (pageFilterModel.PageSize < 1) pageFilterModel.PageSize = 1;
 
-
-                    var currentPage = umbracoHelper.AssignedContentItem.Id;
-                    var siteRoot = umbracoHelper.Content(currentPage).Root().Id;
+                    var currentPageId = pageFilterModel.CurrentPageId;
+                  
+                    var siteRoot = umbracoHelper.Content(currentPageId).Root().Id;
 
                     ISearchResults results = SearchForBlogs(searcher, siteRoot);
                     return ProcessSearchResults<BlogPage>((int)pageFilterModel.CurrentPage, (int)pageFilterModel.PageSize, results);
@@ -147,7 +146,7 @@ namespace owaincodes.Core.Services
                     .Skip<ISearchResult>(skip)
                     .Take<ISearchResult>(qty)
                     .Select<ISearchResult, string>((Func<ISearchResult, string>)(r => r.Id)))
-                    .OfType<BlogPage>();
+                    .OfType<BlogPage>().ToList();
 
               
             }
@@ -161,18 +160,14 @@ namespace owaincodes.Core.Services
 
         private ISearchResults SearchForBlogs(ISearcher searcher, int rootId)
         {
-            
-         
-         //   var firstRootNode = umbracoWebService.Services.ContentService.GetByLevel(1).FirstOrDefault();
-
             var query = searcher.CreateQuery().NodeTypeAlias(BlogPage.ModelTypeAlias);
             
             
             query = query.And().RangeQuery<long>(new[] { Constants.Blogs.BlogDateSortableExamineField }, 0, DateTime.Now.Ticks, maxInclusive: true);
             query = query.And().Field("FriendlyPath", ""+rootId+"");
-           
-          
-           
+
+
+
             var results = query.OrderByDescending(new SortableField(Constants.Blogs.BlogDateSortableExamineField, SortType.Long))
                     .Execute();
             return results;
